@@ -1,15 +1,16 @@
+{% set name = "conda" %}
+{% set version = "4.4.11" %}
+{% set checksum = "a93507e4a1592681c8b031acfc926db9c7eed08bbcf3a31c7bcf1a53b2108de9" %}
 {% set on_win = SUBDIR in ('win-64', 'win-32') %}
 
 package:
   name: conda
-  version: 4.4.11
+  version: {{ version }}
 
 source:
-  # git_url: https://github.com/conda/conda.git
-  # git_rev: 1f64e5fb10d2cd1d632bda38ea3162fcdbb4f14c  # 4.4.11
-  fn: conda-4.4.11.tar.gz
-  url: https://github.com/conda/conda/archive/4.4.11.tar.gz
-  sha256: a93507e4a1592681c8b031acfc926db9c7eed08bbcf3a31c7bcf1a53b2108de9
+  fn: conda-{{ version }}.tar.gz
+  url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
+  sha256: {{ checksum }}
 
 build:
   number: 0
