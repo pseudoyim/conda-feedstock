@@ -1,5 +1,5 @@
 {% set on_win = SUBDIR in ('win-64', 'win-32') %}
-{% set version = '4.5.4' %}
+{% set version = '4.5.5' %}
 
 
 package:
@@ -9,7 +9,7 @@ package:
 source:
   fn: conda-{{ version }}.tar.gz
   url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-  sha256: 5d5b7868dabfa98d65b978aeebe932cee34afcecd2a27136759ff9761023d1c8
+  sha256: 617b1209cb1d7c21165dff7a4d2df5109178ee40e53853501ffed7f916397f9b
 
 build:
   number: 0
@@ -43,7 +43,8 @@ requirements:
     - pycosat >=0.6.3
     - pyopenssl >=16.2.0
     - requests >=2.12.4,<3
-    - ruamel_yaml >=0.11.14
+    - ruamel_yaml >=0.11.14            [py3 or unix]
+    - ruamel_yaml >=0.11.14,<=0.15.37  [py27 and win]
   run_constrained:
     - conda-build >=2.1
     - cytoolz >=0.8.1
