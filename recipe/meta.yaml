@@ -10,6 +10,8 @@ source:
   fn: conda-{{ version }}.tar.gz
   url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
   sha256: 617b1209cb1d7c21165dff7a4d2df5109178ee40e53853501ffed7f916397f9b
+  patches:
+    - 0001-Python-3.7-SyntaxError-Generator-expression-must-be-.patch
 
 build:
   number: 0
