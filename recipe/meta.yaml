@@ -1,5 +1,5 @@
 {% set on_win = SUBDIR in ('win-64', 'win-32') %}
-{% set version = '4.5.5' %}
+{% set version = '4.5.6' %}
 
 
 package:
@@ -9,9 +9,7 @@ package:
 source:
   fn: conda-{{ version }}.tar.gz
   url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-  sha256: 617b1209cb1d7c21165dff7a4d2df5109178ee40e53853501ffed7f916397f9b
-  patches:
-    - 0001-Python-3.7-SyntaxError-Generator-expression-must-be-.patch
+  sha256: 2acf0407864ca0c7422362e4b8b76ab876bafc12a10d764dfe8731989d942e4d
 
 build:
   number: 0
@@ -45,7 +43,7 @@ requirements:
     - pycosat >=0.6.3
     - pyopenssl >=16.2.0
     - requests >=2.12.4,<3
-    - ruamel_yaml >=0.11.14,<=0.15.40
+    - ruamel_yaml >=0.11.14
   run_constrained:
     - conda-build >=2.1
     - cytoolz >=0.8.1
