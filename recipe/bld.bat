@@ -14,5 +14,6 @@ set MSYSTEM=MINGW%ARCH%
 set MSYS2_PATH_TYPE=inherit
 set CHERE_INVOKING=1
 echo %PKG_VERSION% > conda\.version
-bash -lc ". utils/functions.sh && install_conda_full"
+FOR /F "delims=" %%i IN ('python -c "import sys; print(str(sys.version_info.major) + \".\" + str(sys.version_info.minor))"') DO set "PYTHON_VERSION=%%i"
+bash -lxc ". utils/functions.sh && install_conda_full %PREFIX% %PYTHON_VERSION%"
 if errorlevel 1 exit 1
