@@ -8,6 +8,8 @@ source:
   fn: conda-{{ version }}.tar.gz
   url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
   sha256: d7f946e5c770e45da8961323ca96399bf1a881eb68bbaecc7cb1e249f5c86d54
+  patches:
+    - dojo_local_repodata.patch
 
 build:
   number: 0

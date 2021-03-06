@@ -1,0 +1,30 @@
+From 9aba0fb1cbe3cafff6a69a8882d8c766062ac391 Mon Sep 17 00:00:00 2001
+From: Paul Yim <paul.j.yim@gmail.com>
+Date: Sat, 6 Mar 2021 15:35:44 -0500
+Subject: [PATCH] patch changes
+
+---
+ conda/core/path_actions.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/conda/core/path_actions.py b/conda/core/path_actions.py
+index 8c19045d3..8b56f2935 100644
+--- a/conda/core/path_actions.py
++++ b/conda/core/path_actions.py
+@@ -1102,6 +1102,13 @@ class CacheUrlAction(PathAction):
+     def __init__(self, url, target_pkgs_dir, target_package_basename,
+                  sha256=None, size=None, md5=None):
+         self.url = url
++
++        # For conda_build_dojo, referencing local repodata snapshots.
++        if url.startswith('file://') and 'dojo_repodata' in url:
++            sub, fn_conda = url.split('/')[-2:]
++            defaults_url = join('https://repo.anaconda.com/pkgs/main', sub, fn_conda)
++            self.url = defaults_url
++
+         self.target_pkgs_dir = target_pkgs_dir
+         self.target_package_basename = target_package_basename
+         self.sha256 = sha256
+-- 
+2.20.1 (Apple Git-117)
+
