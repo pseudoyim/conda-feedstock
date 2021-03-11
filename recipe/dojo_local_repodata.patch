@@ -1,30 +1,51 @@
-From 9aba0fb1cbe3cafff6a69a8882d8c766062ac391 Mon Sep 17 00:00:00 2001
+From 82e0924da6d27d06b16c7e69cf973a87e52778c4 Mon Sep 17 00:00:00 2001
 From: Paul Yim <paul.j.yim@gmail.com>
-Date: Sat, 6 Mar 2021 15:35:44 -0500
-Subject: [PATCH] patch changes
+Date: Wed, 10 Mar 2021 23:04:53 -0500
+Subject: [PATCH] Changes to make conda work with local dojo_repodata.
 
 ---
- conda/core/path_actions.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ conda/core/path_actions.py | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/conda/core/path_actions.py b/conda/core/path_actions.py
-index 8c19045d3..8b56f2935 100644
+index 8c19045..769565a 100755
 --- a/conda/core/path_actions.py
 +++ b/conda/core/path_actions.py
-@@ -1102,6 +1102,13 @@ class CacheUrlAction(PathAction):
+@@ -1101,6 +1101,15 @@ class CacheUrlAction(PathAction):
+ 
      def __init__(self, url, target_pkgs_dir, target_package_basename,
                   sha256=None, size=None, md5=None):
-         self.url = url
 +
 +        # For conda_build_dojo, referencing local repodata snapshots.
 +        if url.startswith('file://') and 'dojo_repodata' in url:
 +            sub, fn_conda = url.split('/')[-2:]
 +            defaults_url = join('https://repo.anaconda.com/pkgs/main', sub, fn_conda)
 +            self.url = defaults_url
++            print('URL', self.url)
 +
++
+         self.url = url
          self.target_pkgs_dir = target_pkgs_dir
          self.target_package_basename = target_package_basename
-         self.sha256 = sha256
+@@ -1125,13 +1134,16 @@ class CacheUrlAction(PathAction):
+             rm_rf(self.hold_path)
+ 
+         if lexists(self.target_full_path):
+-            if self.url.startswith('file:/') and self.url == path_to_url(self.target_full_path):
++            print('CacheUrlAction.execute1', self.url)
++            if (self.url.startswith('file:/') and self.url == path_to_url(self.target_full_path)) or \
++               (self.url.startswith('file:/') and 'dojo_repodata' in self.url):
+                 # the source and destination are the same file, so we're done
+                 return
+             else:
+                 backoff_rename(self.target_full_path, self.hold_path, force=True)
+ 
+-        if self.url.startswith('file:/'):
++        if self.url.startswith('file:/') and 'dojo_repodata' not in self.url:
++            print('CacheUrlAction.execute2', self.url)
+             source_path = url_to_path(self.url)
+             self._execute_local(source_path, target_package_cache, progress_update_callback)
+         else:
 -- 
 2.20.1 (Apple Git-117)
 
